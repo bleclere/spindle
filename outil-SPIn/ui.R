@@ -5,11 +5,13 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Gestion des projets"),
+  titlePanel("Spindle | Spinal"),
   
-
+  # tableau de donnees
+  fluidRow(
+    column(width = 12, DT::dataTableOutput("dt"))
+  )
 ))

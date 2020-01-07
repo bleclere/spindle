@@ -1,0 +1,6 @@
+16/12/19
+Début du projet. Essaie en html + javascript. Pas de solution évidente pour pouvoir sauvegarder directement les données.
+Une solution pourrait être d’utiliser Shiny. Il existe notamment des solutions de tableau « éditable » grâce au package data.table.
+
+7/01/20
+Archivage git initié. début d’un mock-up en svg. téléchargement d’une image de spindle
