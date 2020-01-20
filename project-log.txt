@@ -4,3 +4,7 @@ Une solution pourrait être d’utiliser Shiny. Il existe notamment des solution
 
 7/01/20
 Archivage git initié. début d’un mock-up en svg. téléchargement d’une image de spindle
+
+20/01/20
+mock-up fini. Image d’un pique-notes (spindle) ajouté.
+TODO : trouver solution logiciel.
