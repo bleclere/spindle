@@ -3,11 +3,13 @@
 <head>
 	<title>Outil SPIn</title>
 	<meta charset="utf-8">
+	<script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
 	<script type="text/javascript">
-	var file = fopen("~/Documents/Professionnel/Projets/Web/outil-SPIn/tache.csv");
-	console.log(file);
+	var bod = d3.select("body");
+
+	bod.append("p").style("background-color", "blue").html("Salut !")
 	</script>
 </body>
 </html>

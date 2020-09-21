@@ -8,3 +8,7 @@ Archivage git initié. début d’un mock-up en svg. téléchargement d’une im
 20/01/20
 mock-up fini. Image d’un pique-notes (spindle) ajouté.
 TODO : trouver solution logiciel.
+
+21/09/20
+Nouveau PC du CHU. Contient PHP, PSQL, Python, etc. Tout le nécessaire pour faire une appli qui fonctionne en local. À porter secondairement en ligne ?
+TODO : construire une première maquette.
