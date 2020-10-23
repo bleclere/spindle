@@ -9,7 +9,7 @@
 
 	<?php
 
-		$id = 3;
+		$id = 5;
 
 	  $dbconnect = pg_connect("dbname=spindle port=5432 user=postgres password=postgres") or die("Impossible de se connecter à la base de données : " . pg_last_error());
 
@@ -79,24 +79,13 @@
 			Résumé : <br>
 			<textarea name="resume" cols="80" rows="10" value="<?=$tab["resume"];?>"></textarea>
 		</p>
+		
 		<input type="submit" value="Modifier">
 	</form>
 
-
-	<datalist id="service">
-		<option value="PHU 1"></option>
-		<option value="PHU 2"></option>
-		<option value="PHU 3"></option>
-		<option value="PHU 4"></option>
-		<option value="PHU 5"></option>
-		<option value="PHU 6"></option>
-		<option value="PHU 7"></option>
-		<option value="PHU 8"></option>
-		<option value="PHU 9"></option>
-		<option value="PHU 10"></option>
-		<option value="PHU 11"></option>
-		<option value="PHU 12"></option>
-	</datalist>
+	<?php
+		include("includes/datalist-phu.php");
+	?>
 
 
 <?php

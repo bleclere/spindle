@@ -33,3 +33,15 @@ h1{
 #g7{
 	color: #c00b17;
 }
+
+.cross{
+	margin-left: 5px;
+	margin-right: 10px;
+	margin-top: 15px;
+	padding-right: 5px;
+	padding-left: 5px;
+	background: crimson;
+	border-radius: 10px;
+	color: white;
+	vertical-align: top;
+}

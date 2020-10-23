@@ -1,4 +1,5 @@
 <?php
+	require("includes/functions.php");
 
 	// Enregistrement du projet
 
@@ -40,5 +41,7 @@
 
 	pg_free_result($result);
 	pg_close($dbconnect);
+
+	render("result_entry_project.php");
 
 ?>

@@ -3,7 +3,7 @@
 <head>
 	<title>Créer un projet</title>
 	<meta charset="utf8">
-	<link rel="stylesheet" type="text/css" href="templates/css/style.css">
+	<link rel="stylesheet" type="text/css" href="includes/css/style.css">
 </head>
 <body>
 
@@ -57,27 +57,25 @@
 			Résumé : <br>
 			<textarea name="resume" cols="80" rows="10"></textarea>
 		</p>
-		<input type="submit" value="Soumettre">
+		<div id="candidature"><p>Candidatures</p></div>
+		<button type="button" onclick="add_candidature();" id="addcandidature">Ajouter une candidature</button>
+		<div id="valorisation"><p>Valorisations</p></div>
+		<button type="button" onclick="add_valo();" id="addvalo">Ajouter une valorisation
+		</button>
+		<p><input type="submit" value="Soumettre" onclick="return check_entry();"></p>
 	</form>
 
 
-	<datalist id="service">
-		<option value="PHU 1"></option>
-		<option value="PHU 2"></option>
-		<option value="PHU 3"></option>
-		<option value="PHU 4"></option>
-		<option value="PHU 5"></option>
-		<option value="PHU 6"></option>
-		<option value="PHU 7"></option>
-		<option value="PHU 8"></option>
-		<option value="PHU 9"></option>
-		<option value="PHU 10"></option>
-		<option value="PHU 11"></option>
-		<option value="PHU 12"></option>
-	</datalist>
+	<?php 
 
+	include("includes/datalists-projets.php");
+
+	?>
 
 <?php
+		// Créer la datalist des utilisateurs pour le menu déroulant
+		// ----------------------------------------------------------
+
 
 		$dbconnect = pg_connect("dbname=spindle port=5432 user=postgres password=postgres") or die(" Connection impossible : " . pg_last_error());
 		$query = "SELECT nom, prenom FROM utilisateurs WHERE statut = 'methodo' ORDER BY nom";
@@ -99,6 +97,8 @@
 
 
 	<script>
+
+		// faire apparaître un champ conditionnellement pour la saisie du méthodologiste
 		function cond_methodo() {
 
 			var condition = document.getElementsByName("methodologie")[0].checked || document.getElementsByName("analyse")[0].checked;
@@ -110,6 +110,7 @@
 			}
 		}
 
+		// faire apparaître conditionnellement un champ pour la date de clôture
 		function cond_cloture() {
 			var condition = document.getElementsByName("avancement")[6].checked;
 
@@ -120,6 +121,7 @@
 			}
 		}
 
+		// faire apparaître conditionnellement un champ pour le CdP
 		function cond_cdp() {
 			var condition = document.getElementsByName("chefferie")[1].checked;
 
@@ -130,6 +132,140 @@
 			}
 
 		}
+
+
+		// vérifier qu’au moins un nom d’étude est fourni
+		function check_entry() {
+			if (document.getElementsByName("nom")[0].value.length == 0) {
+				alert("Saisir au moins un nom de projet");
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+
+		// faire apparaître les champs liés à la candidature
+		function add_candidature() {
+
+			var element = document.getElementById("candidature");
+
+			//var index = element.getElementsByTagName("div").length + 1;
+			var line = document.createElement("div");
+
+
+			var cross = document.createElement("span");
+			cross.appendChild(document.createTextNode("X"));
+			cross.className = "cross";
+			cross.onclick = function() {
+				this.parentNode.remove();
+			};
+			line.appendChild(cross);
+
+
+			var data_block = document.createElement("div");
+			data_block.style.display = "inline-block";
+
+			
+			var aap = document.createElement("p");
+			aap.appendChild(document.createTextNode("AAP/AO : "));
+			var aap_input = document.createElement("input");
+			aap_input.type = "text";
+			var list = document.getElementById('aap').id;
+  			aap_input.setAttribute('list', list);
+			aap_input.name = "aap";
+			aap.appendChild(aap_input);
+
+
+			var annee = document.createElement("p");
+			annee.appendChild(document.createTextNode("Année : "));
+			var annee_input = document.createElement("input");
+			annee_input.type = "number";
+			annee_input.name = "annee";
+			annee_input.min = "2020";
+			annee_input.max = "2050";
+			annee.appendChild(annee_input);
+
+			var budget = document.createElement("p");
+			budget.appendChild(document.createTextNode("Budget : "));
+			var budget_input = document.createElement("input");
+			budget_input.type = "number";
+			budget_input.name = "budget";
+			budget.appendChild(budget_input);
+			budget.appendChild(document.createTextNode(" €"));
+
+			var statut = document.createElement("p");
+			statut.appendChild(document.createTextNode("Obtenu : "));
+			var list_statut = ["oui", "non"];
+			list_statut.forEach(function(x) {
+				var statut_input = document.createElement("input");
+				statut_input.name = "type_valo";
+				statut_input.type = "radio";
+				statut_input.value = x;
+				statut.appendChild(statut_input);
+				statut.appendChild(document.createTextNode(" " + x + " "));
+			});
+
+			data_block.appendChild(aap);
+			data_block.appendChild(annee);
+			data_block.appendChild(budget);
+			data_block.appendChild(statut);
+
+			line.appendChild(data_block);
+
+			element.appendChild(line);
+		}
+
+		function add_valo() {
+
+
+			var element = document.getElementById("valorisation");
+
+			var line = document.createElement("div");
+
+
+			var cross = document.createElement("span");
+			cross.appendChild(document.createTextNode("X"));
+			cross.className = "cross";
+			cross.onclick = function() {
+				this.parentNode.remove();
+			};
+			line.appendChild(cross);
+
+			var data_block = document.createElement("div");
+			data_block.style.display = "inline-block";
+
+			var ref = document.createElement("p");
+			ref.appendChild(document.createTextNode("Référence : "));
+			var ref_input = document.createElement("input");
+			ref_input.type = "text";
+			ref_input.name = "reference";
+			ref_input.size = 105;
+
+			ref.appendChild(ref_input);
+
+
+			var type = document.createElement("p");
+			type.appendChild(document.createTextNode("Type de valorisation :"));
+			var list_type = ["article", "poster", "communication orale"];
+			list_type.forEach(function(x) {
+				var type_input = document.createElement("input");
+				type_input.name = "statut";
+				type_input.type = "radio";
+				type_input.value = x;
+				type.appendChild(type_input);
+				type.appendChild(document.createTextNode(" " + x + " "));
+			});
+
+			data_block.appendChild(type);
+			data_block.appendChild(ref);
+
+			line.appendChild(data_block);
+
+			element.appendChild(line);
+		}
+
+
 
 	</script>
 
