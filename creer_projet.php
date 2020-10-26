@@ -8,10 +8,7 @@
 <body>
 
 	<h1>Créer un projet</h1>
-
-
-	<form action="submit-project.php" method="post">
-
+	
 		<p>Nom du projet (acronyme) : <input name="nom" type="text"></p>
 		<p>Nom complet : <input name="nom_complet" type="text" size="105"></p>
 		<p>Date de demande : <input type="date" name="date"></p>
@@ -62,8 +59,7 @@
 		<div id="valorisation"><p>Valorisations</p></div>
 		<button type="button" onclick="add_valo();" id="addvalo">Ajouter une valorisation
 		</button>
-		<p><input type="submit" value="Soumettre" onclick="return check_entry();"></p>
-	</form>
+		<p><button type="button" onclick="submit();">Soumettre</button></p>
 
 
 	<?php 
@@ -135,12 +131,113 @@
 
 
 		// vérifier qu’au moins un nom d’étude est fourni
-		function check_entry() {
+		function submit() {
 			if (document.getElementsByName("nom")[0].value.length == 0) {
 				alert("Saisir au moins un nom de projet");
-				return false;
 			} else {
-				return true;
+				//alert("OK pour moi !");
+				
+				// collecter les données
+				var avancement;
+
+				for (var i = 0; i < document.getElementsByName("avancement").length; i++) {
+					if (document.getElementsByName("avancement")[i].checked) {
+						avancement = document.getElementsByName("avancement")[i].value;
+						break;
+					} else {
+						avancement = "";
+					}
+				}
+
+				//alert(avancement);
+
+				var post = {
+					nom: document.getElementsByName("nom")[0].value,
+					nom_complet: document.getElementsByName("nom")[0].value,
+					date: document.getElementsByName("date")[0].value,
+					porteur: document.getElementsByName("porteur")[0].value,
+					service: document.getElementsByName("service")[0].value,
+					financement: document.getElementsByName("financement")[0].checked ? "oui" : document.getElementsByName("financement")[1].checked ? "non" : "",
+					chefferie: document.getElementsByName("chefferie")[0].checked ? "oui" : document.getElementsByName("chefferie")[1].checked ? "non" : document.getElementsByName("chefferie")[2].checked ? "ponctuel" : "",
+					cdp: document.getElementsByName("cdp")[0].checked ? "chu" : document.getElementsByName("cdp")[1].checked ? "hors" : "",
+					methodologie: document.getElementsByName("methodologie")[0].checked ? "oui" : document.getElementsByName("methodologie")[1].checked ? "non" : "",
+					analyse: document.getElementsByName("analyse")[0].checked ? "oui" : document.getElementsByName("analyse")[1].checked ? "non" : "",
+					valorisation: document.getElementsByName("valorisation")[0].checked ? "oui" : document.getElementsByName("valorisation")[1].checked ? "non" : "",
+					avancement: avancement,
+					date_cloture: document.getElementsByName("date_cloture")[0].value,
+					utilisateur: document.getElementsByName("utilisateur")[0].value,
+					resume: document.getElementsByName("resume")[0].value,
+				};
+
+
+
+				const requete = new XMLHttpRequest(),
+					  data = new FormData();
+
+				for (datum in post) {
+					data.append(datum, post[datum]);
+				}
+
+				requete.addEventListener('load', function(event) {
+					alert('Données projet saisies.');
+				});
+
+				requete.addEventListener('error', function(event) {
+					alert('something went wrong.');
+				});
+
+				requete.open('POST', 'submit-project.php');
+				requete.send(data);
+
+
+				// saisie des données de candidatures
+				// ----------------------------------
+
+				const candid = document.getElementsByClassName("candid_data");
+
+				if (candid.length > 0) {
+					for (var line =0; line < candid.length; line++) {
+
+						const requete_candid = new XMLHttpRequest(),
+						      data_candid = new FormData();
+
+						let statut;
+						let line_data = candid[line];
+
+
+						for (var i = 0; i < line_data.getElementsByName("statut").length; i++) {
+							if (line_data.getElementsByName("statut")[i].checked) {
+								statut = line_data.getElementsByName("statut")[i];
+								break;
+							} else {
+								statut = "";
+							}
+						}
+
+						let post_candid = {
+							aap: line_data.getElementsByName("aap")[0].value,
+							annee: line_data.getElementsByName("annee")[0].value,
+							budget: line_data.getElementsByName("budget")[0].value,
+							statut: statut
+
+						};
+
+						for (var datum in post_candid) {
+							data_candid.append(datum, post_candid[datum]);
+						}
+
+						requete_candid.addEventListener("load", function(event) {
+							alert('Données candidatures saisies.');
+						});
+
+						requete_candid.addEventListener("error", function(event) {
+							alert("Erreur dans la saisie des données de candidature");
+						});
+
+						requete_candid.open("POST", "submit-candid.php");
+						requete_candid.send(data_candid);
+					}
+				}
 			}
 		}
 
@@ -165,6 +262,7 @@
 
 			var data_block = document.createElement("div");
 			data_block.style.display = "inline-block";
+			data_block.className = "candid_data";
 
 			
 			var aap = document.createElement("p");
@@ -199,7 +297,7 @@
 			var list_statut = ["oui", "non"];
 			list_statut.forEach(function(x) {
 				var statut_input = document.createElement("input");
-				statut_input.name = "type_valo";
+				statut_input.name = "statut";
 				statut_input.type = "radio";
 				statut_input.value = x;
 				statut.appendChild(statut_input);
