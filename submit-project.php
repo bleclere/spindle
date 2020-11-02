@@ -42,6 +42,6 @@
 	pg_free_result($result);
 	pg_close($dbconnect);
 
-	render("result_entry_project.php");
+	//render("result_entry_project.php");
 
 ?>

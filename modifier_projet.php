@@ -11,15 +11,13 @@
 
 		$id = 5;
 
-	  $dbconnect = pg_connect("dbname=spindle port=5432 user=postgres password=postgres") or die("Impossible de se connecter à la base de données : " . pg_last_error());
+	  	$dbconnect = pg_connect("dbname=spindle port=5432 user=postgres password=postgres") or die("Impossible de se connecter à la base de données : " . pg_last_error());
 
 		$query = "SELECT * FROM projets WHERE id = " . $id;
 
 		$result = pg_query($query) or die("Requête impossible : " . pg_last_error());
 
 		$tab = pg_fetch_all($result)[0];
-
-
 
 		pg_free_result($result);
 		pg_close($dbconnect);

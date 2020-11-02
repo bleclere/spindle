@@ -153,7 +153,7 @@
 
 				var post = {
 					nom: document.getElementsByName("nom")[0].value,
-					nom_complet: document.getElementsByName("nom")[0].value,
+					nom_complet: document.getElementsByName("nom_complet")[0].value,
 					date: document.getElementsByName("date")[0].value,
 					porteur: document.getElementsByName("porteur")[0].value,
 					service: document.getElementsByName("service")[0].value,
@@ -202,24 +202,22 @@
 						      data_candid = new FormData();
 
 						let statut;
-						let line_data = candid[line];
+						//let line_data = candid[line];
 
 
-						for (var i = 0; i < line_data.getElementsByName("statut").length; i++) {
-							if (line_data.getElementsByName("statut")[i].checked) {
-								statut = line_data.getElementsByName("statut")[i];
+						for (var i = 0; i < 2 ; i++) {
+							if (document.getElementsByName("statut")[(line * 2) + i].checked) {
+								statut = document.getElementsByName("statut")[(line * 2) + i].value;
 								break;
-							} else {
-								statut = "";
-							}
+							} 
+							statut = "";
 						}
 
 						let post_candid = {
-							aap: line_data.getElementsByName("aap")[0].value,
-							annee: line_data.getElementsByName("annee")[0].value,
-							budget: line_data.getElementsByName("budget")[0].value,
+							aap: document.getElementsByName("aap")[line].value,
+							annee: document.getElementsByName("annee")[line].value,
+							budget: document.getElementsByName("budget")[line].value,
 							statut: statut
-
 						};
 
 						for (var datum in post_candid) {
@@ -235,7 +233,7 @@
 						});
 
 						requete_candid.open("POST", "submit-candid.php");
-						requete_candid.send(data_candid);
+						requete_candid.send(data_candid, );
 					}
 				}
 			}
@@ -362,8 +360,6 @@
 
 			element.appendChild(line);
 		}
-
-
 
 	</script>
 
