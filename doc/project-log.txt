@@ -12,3 +12,16 @@ TODO : trouver solution logiciel.
 21/09/20
 Nouveau PC du CHU. Contient PHP, PSQL, Python, etc. Tout le nécessaire pour faire une appli qui fonctionne en local. À porter secondairement en ligne ?
 TODO : construire une première maquette.
+
+03/11/20 
+Plusieurs pages créées. TODO : créer le processus de modification des projets.
+
+
+----------
+
+TODOs : 
+
+- automatiser les listes des méthodos et remplacer un numéro d’identification dans la table projet à la place du nom du méthodo.
+- harmoniser les noms dans les tables SQL et les pages html
+- passer par des id de tags pour simplifier le code javascript
+- faire le tour des codes en doublon et créer des fonctions pour éviter les répétitions
