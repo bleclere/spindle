@@ -14,15 +14,7 @@
 		}
 	}
 
-	$query_id = "SELECT id FROM projets ORDER BY id DESC LIMIT 1";
-
-	$result_id = pg_query($query_id) or die ("Impossible d’obtenir le numéro de projet : " . pg_last_error());
-
-	$projet = pg_fetch_result($result_id, 0, 0);
-
-	pg_free_result($result_id);
-
-	$query = "INSERT INTO valorisations(type, ref, projet_id) VALUES (" . $_POST["type"] . ", " . $_POST["ref"] . ", " . $projet . ")";
+	$query = "INSERT INTO valorisations(type, ref, projet_id) VALUES (" . $_POST["type"] . ", " . $_POST["ref"] . ", " . $_POST["projet_id"] . ")";
 
 	$result = pg_query($query) or die ("Impossible d’ajouter la valorisation : " . pg_last_error());
 

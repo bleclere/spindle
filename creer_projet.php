@@ -186,7 +186,7 @@
 			requete.onreadystatechange = function () {
 				if (requete.readyState === XMLHttpRequest.DONE) {
 					if (requete.status === 200) {
-						func(requete.responseText);
+						func(requete.responseText, submit_valo);
 					} else {
 						alert("There has been a problem with the query.");
 					}
@@ -199,12 +199,13 @@
 
 		}
 
-		function submit_candid(id)  {
+		function submit_candid(id, callback)  {
 
 			// saisie des données de candidatures
 			// ----------------------------------
 
 			const candid = document.getElementsByClassName("candid_data");
+			var done = false;
 
 			if (candid.length > 0) {
 				for (let line =0; line < candid.length; line++) {
@@ -238,23 +239,27 @@
 						data_candid.append(datum, post_candid[datum]);
 					}
 
-					requete_candid.addEventListener("load", function(event) {
+					/*requete_candid.addEventListener("load", function(event) {
 						alert('Données candidatures saisies.');
 					});
 
 					requete_candid.addEventListener("error", function(event) {
 						alert("Erreur dans la saisie des données de candidature");
-					});
+					});*/
 
 					requete_candid.open("POST", "submit-candid.php");
 					requete_candid.send(data_candid);
 
 				}
+
+				if(typeof(callback) !== "undefined") {
+					callback(id);
+				}
 			}
 		}
 
 
-		function submit_valo() {
+		function submit_valo(id) {
 
 			// ajout des données de valorisation
 			//----------------------------------
@@ -285,7 +290,8 @@
 
 					let post_valo = {
 						type: type,
-						ref: document.getElementsByName("reference")[line].value
+						ref: document.getElementsByName("reference")[line].value,
+						projet_id: id
 					};
 
 
@@ -299,10 +305,10 @@
 
 					requete_valo.addEventListener("error", function(event) {
 						alert("Erreur dans la saisie des données de candidature");
-					});
+					});*/
 
 					requete_valo.open("POST", "submit-valo.php");
-					requete_valo.send(data_valo);*/
+					requete_valo.send(data_valo);
 
 				}
 			}
