@@ -3,13 +3,13 @@
 <head>
 	<title>Modifier un projet</title>
 	<meta charset="utf8">
-	<link rel="stylesheet" type="text/css" href="templates/css/style.css">
+	<link rel="stylesheet" type="text/css" href="includes/css/style.css">
 </head>
 <body onload="remplir();">
 
 	<?php
 
-		$id = 5;
+		$id = 1;
 
 	  	$dbconnect = pg_connect("dbname=spindle port=5432 user=postgres password=postgres") or die("Impossible de se connecter à la base de données : " . pg_last_error());
 
@@ -20,9 +20,30 @@
 		$tab = pg_fetch_all($result)[0];
 
 		pg_free_result($result);
+
+
+		$query = "SELECT * FROM candidatures WHERE projet_id = " .$id;
+
+		$result = pg_query($query) or die("Requête candidatures impossible : " . pg_last_error());
+
+		$tab_candid = pg_fetch_all($result);
+
+		//var_dump($tab_candid);
+
+		pg_free_result($result);
+
+
+		$query = "SELECT * FROM valorisations WHERE projet_id = " .$id;
+
+		$result = pg_query($query);
+
+		$tab_valo = pg_fetch_all($result);
+
+		pg_free_result($result);
+
 		pg_close($dbconnect);
 
-		var_dump($tab);
+		//var_dump($tab_valo);
 
 	 ?>
 
@@ -30,7 +51,6 @@
 	<h1>Modifier le projet <?=$tab["nom"];?></h1>
 
 
-	<form action="modifier-project.php" method="post">
 		<input type="hidden" name="id" value="<?=$id;?>">
 		<p>Nom du projet (acronyme) : <input name="nom" type="text" value="<?=$tab["nom"];?>"></p>
 		<p>Nom complet : <input name="nom_complet" type="text" size="105" value="<?=$tab["nom_complet"];?>"></p>
@@ -75,14 +95,52 @@
 		<p id="methodo" style="display: none;">Methodologiste/Analyste : <input type="text" name="utilisateur" list="utilisateurs" value="<?=$tab["methodo"];?>"></p>
 		<p>
 			Résumé : <br>
-			<textarea name="resume" cols="80" rows="10" value="<?=$tab["resume"];?>"></textarea>
+			<textarea name="resume" cols="80" rows="10" ><?=$tab["resume"];?></textarea>
 		</p>
-		
-		<input type="submit" value="Modifier">
-	</form>
+		<div id="candidature"><p>Candidatures</p>
+		<?php if ($tab_candid): ?>
+			<?php foreach ($tab_candid as $candid): ?>
+				<div>
+					<span class="cross" onclick="remove_candidature(this);">X</span>
+					<div style="display: inline-block;" class="candid_data">
+						<input type="hidden" name="id" value="<?= $candid["id"] ?>">
+						<p>AAP/AO : <input type="text" list="aap" name="aap" value="<?= $candid["aap"] ?>"></p>
+						<p>Année : <input type="number" min="2020" max="2050" name="annee" value="<?= $candid["annee"];?>"></p>
+						<p>Budget : <input type="number" name="budget" value=<?= $candid["budget"]?>> €</p>
+						<p>Obtenu :
+							<?php $obtenu = $candid["statut"] == "oui"; ?>
+							<input type="radio" name="statut" value="oui" <?php if ($obtenu) echo "checked"; ?>> oui 
+							<input type="radio" name="statut" value="non" <?php if (!$obtenu) echo "checked"; ?>> non 
+						</p>
+					</div>
+				</div>
+			<?php endforeach ?>
+		<?php endif ?>
+		<button type="button" onclick="add_candidature();" id="addcandidature">Ajouter une candidature</button>
+
+		<div id="valorisation"><p>Valorisations</p></div>
+		<?php if ($tab_valo): ?>
+		<?php foreach ($tab_valo as $valo): ?>
+			<div>
+					<span class="cross" onclick="remove_candidature(this);">X</span>
+					<div style="display: inline-block;" class="valo_data">
+						<input type="hidden" name="id" value="<?= $valo["id"] ?>">
+						<p>Référence : <input type="text" size="105" name="reference" value="<?= $candid["reference"] ?>"></p>
+						<p>Type de valorisation :
+							<?php foreach(['article', 'poster', 'communication orale'] as $type): ?>)
+								<input type="radio" name="type" value="<?= $type ?>" <?php if ($valo["type"] == $type) echo "checked"; ?>> <?= $type ?>  
+							<?php endforeach ?>
+						</p>
+					</div>
+				</div>
+		<?php endforeach ?>
+		<?php endif ?>
+		<button type="button" onclick="add_valo();" id="addvalo">Ajouter une valorisation
+		</button>
+		<p><button type="button" onclick="submit_data();">Modifier</button></p>
 
 	<?php
-		include("includes/datalist-phu.php");
+		include("includes/datalists-projets.php");
 	?>
 
 
@@ -203,6 +261,28 @@
 			} else {
 				document.getElementById("cdp").style.display = "none";
 			}
+
+		}
+
+		function remove_candidature(cross) {
+
+			cross.parentNode.remove();
+			
+			const requete = new XMLHttpRequest();
+			const data = new FormData();
+
+			data.append("id", cross.parentNode.children[1].children["id"].value);
+
+			requete.addEventListener('load', function(event) {
+					alert('Données projet saisies.');
+			});
+
+			requete.addEventListener('error', function(event) {
+				alert('something went wrong.');
+			});
+
+			requete.open('POST', 'remove-candid.php');
+			requete.send(data);
 
 		}
 

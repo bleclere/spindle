@@ -330,6 +330,7 @@
 
 			var data_block = document.createElement("div");
 			data_block.style.display = "inline-block";
+			data_block.className = "valo_data";
 
 			var ref = document.createElement("p");
 			ref.appendChild(document.createTextNode("Référence : "));
