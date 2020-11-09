@@ -40,8 +40,17 @@
 	//print_r($result);
 
 	pg_free_result($result);
+
+
+	$query_id = "SELECT id FROM projets ORDER BY id DESC LIMIT 1";
+
+	$result_id = pg_query($query_id) or die("Impossible de récupérer l’id : " . pg_last_error());
+
+	$id = pg_fetch_result($result_id, 0, 0);
+
+	echo "$id";
+
 	pg_close($dbconnect);
 
-	//render("result_entry_project.php");
 
 ?>

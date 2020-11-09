@@ -14,19 +14,15 @@
 		}
 	}
 
-	$query_uno = "SELECT id FROM projets ORDER BY id DESC LIMIT 1";
 
-	$result_uno = pg_query($query_uno) or die("Impossible d’obtenir de numéro de projet : " . pg_last_error());
-
-	$projet = pg_fetch_result($result_uno, 0, 0);
-
-	$query_duo = "INSERT INTO candidatures(aap, budget, statut, projet_id, annee) VALUES (" . $_POST["aap"] . ", " . $_POST["budget"] . ", " . $_POST["statut"] . ", " . $projet
+	$query = "INSERT INTO candidatures(aap, budget, statut, projet_id, annee) VALUES (" . $_POST["aap"] . ", " . $_POST["budget"] . ", " . $_POST["statut"] . ", " . $_POST["projet_id"]
  . ", " . $_POST["annee"] . ")";
 
- 	pg_free_result($result_uno); 
 
- 	$result_duo = pg_query($query_duo) or die("Impossible d’ajouter la candidature : " . pg_last_error());
+ 	$result = pg_query($query) or die("Impossible d’ajouter la candidature : " . pg_last_error());
 
- 	pg_free_result($result_duo);
+ 	pg_free_result($result);
  	pg_close($dbconnect);
+
+ 	echo $_POST['projet_id'];
 ?>
