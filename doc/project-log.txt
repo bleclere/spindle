@@ -25,3 +25,5 @@ TODOs :
 - harmoniser les noms dans les tables SQL et les pages html
 - passer par des id de tags pour simplifier le code javascript
 - faire le tour des codes en doublon et créer des fonctions pour éviter les répétitions
+- modifier les getElementsByName par des getElementsByClassName quand possible (problème avec les éléments radio).
+

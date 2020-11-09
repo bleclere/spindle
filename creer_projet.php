@@ -218,8 +218,8 @@
 
 
 					for (let i = 0; i < 2 ; i++) {
-						if (document.getElementsByName("statut")[(line * 2) + i].checked) {
-							statut = document.getElementsByName("statut")[(line * 2) + i].value;
+						if (document.getElementsByClassName("statut")[(line * 2) + i].checked) {
+							statut = document.getElementsByClassName("statut")[(line * 2) + i].value;
 							break;
 						} 
 						statut = "";
@@ -251,11 +251,12 @@
 					requete_candid.send(data_candid);
 
 				}
-
-				if(typeof(callback) !== "undefined") {
-					callback(id);
-				}
 			}
+
+			if(typeof(callback) !== "undefined") {
+				callback(id);
+			}
+			
 		}
 
 
@@ -273,7 +274,7 @@
 						  data_valo = new FormData();
 
 					let type;
-					let type_list = document.getElementsByName("type");
+					let type_list = document.getElementsByClassName("type");
 					let num_items = type_list.length / valo.length;
 
 					for (let i = 0; i < num_items; i++) {
@@ -371,9 +372,10 @@
 			var list_statut = ["oui", "non"];
 			list_statut.forEach(function(x) {
 				var statut_input = document.createElement("input");
-				statut_input.name = "statut";
+				//statut_input.name = "statut";
 				statut_input.type = "radio";
 				statut_input.value = x;
+				statut_input.className = "statut";
 				statut.appendChild(statut_input);
 				statut.appendChild(document.createTextNode(" " + x + " "));
 			});
@@ -423,7 +425,8 @@
 			var list_type = ["article", "poster", "communication orale"];
 			list_type.forEach(function(x) {
 				var type_input = document.createElement("input");
-				type_input.name = "type";
+				//type_input.name = "type";
+				type_input.className = "type";
 				type_input.type = "radio";
 				type_input.value = x;
 				type.appendChild(type_input);
