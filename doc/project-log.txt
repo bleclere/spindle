@@ -17,6 +17,9 @@ TODO : construire une première maquette.
 Plusieurs pages créées. TODO : créer le processus de modification des projets.
 
 
+16/11/20 
+remplissage de la page de modification en cours de construction. TODO : voir pourquoi les remplissages dépendants de boucle ne fonctionnent pas.
+
 ----------
 
 TODOs : 
