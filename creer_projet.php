@@ -12,7 +12,11 @@
 	
 		
 	<?php include("templates/projet.php"); ?>
-
+	<div id="candidature"><p>Candidatures</p></div>
+	<button type="button" onclick="add_candidature();" id="addcandidature">Ajouter une candidature</button>
+	<div id="valorisation"><p>Valorisations</p></div>
+	<button type="button" onclick="add_valo();" id="addvalo">Ajouter une valorisation
+	</button>
 
 	<p><button type="button" onclick="submit();">Soumettre</button></p>
 

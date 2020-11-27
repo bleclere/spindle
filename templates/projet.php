@@ -43,8 +43,3 @@
 	Résumé : <br>
 	<textarea name="resume" cols="80" rows="10"></textarea>
 </p>
-<div id="candidature"><p>Candidatures</p></div>
-<button type="button" onclick="add_candidature();" id="addcandidature">Ajouter une candidature</button>
-<div id="valorisation"><p>Valorisations</p></div>
-<button type="button" onclick="add_valo();" id="addvalo">Ajouter une valorisation
-</button>

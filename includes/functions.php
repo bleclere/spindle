@@ -31,15 +31,16 @@
 	function create_datalist() {
 
 		$result = query("SELECT nom, prenom FROM utilisateurs WHERE statut = 'methodo' ORDER BY nom");
-		var_dump($result);
+		//var_dump($result);
 
-		/*echo "<datalist id=\"utilisateurs\">";
+		echo "<datalist id=\"utilisateurs\">";
 
-		while($row = pg_fetch_row($result)) {
-			echo "<option value=\"" . $row[0] . ", " . $row[1] . "\">";
+		foreach ($result as $key => $value) {
+			echo "<option value=\"" . $value["prenom"] . " " . $value["nom"] . "\">";
+			//var_dump($value);
 		}
 
-		echo "</datalist>";*/
+		echo "</datalist>";
 	}
 
 
